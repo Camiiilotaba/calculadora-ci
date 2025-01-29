@@ -18,4 +18,8 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
 
       - name: Construyendo la imagen
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: |
+          docker build . --file Dockerfile --tag Camiiilotaba/calculadora-ci:latest
+          
+      - name: Subiendo imagen
+        run: docker push Camiiilotaba/calculadora-ci:latest
