@@ -14,12 +14,10 @@ jobs:
 
       - name: Loguearse en Docker
         run: |
-          echo "Logueandose..."
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
       - name: Construyendo la imagen
-        run: |
-          docker build . --file Dockerfile --tag Camiiilotaba/calculadora-ci:latest
-          
+        run: docker build . --file Dockerfile --tag camilotaba/calculadora:latest
+
       - name: Subiendo imagen
-        run: docker push Camiiilotaba/calculadora-ci:latest
+        run: docker push camilotaba/calculadora:latest
