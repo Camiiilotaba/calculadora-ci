@@ -2,22 +2,23 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build:
+  construir:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Hacer checkout
+      - name: Hacer checkout del código
         uses: actions/checkout@v4
 
-      - name: Loguearse en Docker
-        run: |
-          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+      - name: Loguearse en Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Construyendo la imagen
+      - name: Construir la imagen de Docker
         run: docker build . --file Dockerfile --tag camilotaba/calculadora:latest
 
-      - name: Subiendo imagen
-        run: docker push camilotaba/calculadora:latest
+      - name: Subir la imagen a Docker Hub
+        run: docker push ${{ secrets.DOCKER_USER }}/calculadora:latest
