@@ -11,7 +11,7 @@ jobs:
       - name: Hacer checkout del código
         uses: actions/checkout@v4
 
-      - name: Configurar QEMU
+      - name: Configurar QEMU 
         uses: docker/setup-qemu-action@v3
 
       - name: Configurar Buildx
@@ -23,10 +23,13 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Construir y subir la imagen
+      - name: Construir y subir la imagen multiplataforma
         uses: docker/build-push-action@v6.13.0
         with:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/calculadora:latest
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKER_USER }}/calculadora:latest
+            ${{ secrets.DOCKER_USER }}/calculadora:${{ github.sha }}
