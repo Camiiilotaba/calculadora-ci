@@ -5,6 +5,17 @@ on:
     branches: ["main"]
 
 jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Instalar php
+      
+      - name: Instalar dependencias
+      
+      - name: Ejecutamos tests
+      
+
+      
   construir:
     runs-on: ubuntu-latest
     steps:
