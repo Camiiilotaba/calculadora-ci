@@ -21,7 +21,7 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Ejecutamos tests
-        run: php vendor/bin/phpunit
+        run: vendor/bin/phpunit --testdox tests
 
   construir:
     runs-on: ubuntu-latest
