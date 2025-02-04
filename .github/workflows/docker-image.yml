@@ -6,23 +6,30 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest 
     steps:
-      - name: Instalar php
-      
-      - name: Instalar dependencias
-      
-      - name: Ejecutamos tests
-      
+      - name: Hacer checkout del código
+        uses: actions/checkout@v4 
 
-      
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: pdo, pdo_mysql
+
+      - name: Instalar dependencias
+        run: composer install --prefer-dist
+
+      - name: Ejecutamos tests
+        run: php vendor/bin/phpunit
+
   construir:
     runs-on: ubuntu-latest
     steps:
       - name: Hacer checkout del código
         uses: actions/checkout@v4
 
-      - name: Configurar QEMU 
+      - name: Configurar QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Configurar Buildx

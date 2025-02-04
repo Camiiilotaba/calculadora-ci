@@ -1,3 +1,4 @@
+
 FROM php:8.2-cli AS base
 
 WORKDIR /app
@@ -8,9 +9,10 @@ RUN apt update && \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY composer.json ./
+COPY composer.json composer.lock ./
 
-RUN composer install --no-dev
+RUN composer install --no-dev --optimize-autoloader
+
 
 FROM base AS dev
 
@@ -23,14 +25,15 @@ COPY . .
 
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
 
+
 FROM base AS test
 
-RUN composer require --dev phpunit/phpunit
+RUN composer install --dev  
 
 COPY . .
 
-# ./vendor/bin/phpunit --testdox tests
 CMD ["./vendor/bin/phpunit", "--testdox", "tests"]
+
 
 FROM base AS prod
 
